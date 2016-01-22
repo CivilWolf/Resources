@@ -1,7 +1,21 @@
 // Example program:
 // Using SDL2 to create an application window
 
+#if defined(__APPLE__)
+
 #include "SDL2/SDL.h"
+
+#endif
+#if defined(__linux__)
+
+#include "SDL2/SDL.h"
+
+#endif
+#if defined(_WIN32) || (_WIN64)
+
+#include "SDL.h"
+
+#endif
 #include <stdio.h>
 #include <iostream>
 using namespace std;
