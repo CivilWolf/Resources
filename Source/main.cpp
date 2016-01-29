@@ -3,8 +3,8 @@
 
 #if defined(__APPLE__)
 
-#include "SDL2/SDL.h"
-#include "SDL2_image/SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2_image/SDL_image.h>
 
 #endif
 #if defined(__linux__)
@@ -19,6 +19,7 @@
 #endif
 #include <stdio.h>
 #include <iostream>
+//#include <string>
 using namespace std;
 
 //code for frame rate independence
@@ -52,10 +53,10 @@ int main(int argc, char* argv[]) {
 	{
 		cout << "Running on Apple" << endl;
 		//get the current working directory
-		string s_cwd(getcwd(NULL,0));
+		string currentWorkingDirectory(getcwd(NULL,0));
 
 		//create a string linking to the mac's images folder
-		string s_cwd_images = s_cwd + "/Resources/images/";
+		string images_dir = currentWorkingDirectory + "/Resources/images/";
 	}
 #endif
 
@@ -64,6 +65,7 @@ int main(int argc, char* argv[]) {
 	if (window == NULL) {
 		// In the case that the window could not be made...
 		printf("Could not create window: %s\n", SDL_GetError());
+		//quit = true;
 		return 1;
 	}
 
@@ -73,21 +75,23 @@ int main(int argc, char* argv[]) {
 	renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
 
 
+	string currentWorkingDirectory(getcwd(NULL,0));
+	string images_dir = currentWorkingDirectory + "/Resources/images/";
 	//CreateBackground
-	string BKGDpath = s_cwd_images + "/face.png";
+	string BKGDpath = images_dir + "/face.png";
 
 	//create a SDL surface to hold the background images
-	SDL_Surface*surface = IMG_Load(BKGDpath.c_str());
+	SDL_Surface *surface = IMG_Load((images_dir + "bkgd.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*bkgd1;
 	//place surface info into the texture bkgd1;
-	bkgd1.CreateTextureFromSurface(renderer,surface);
+	bkgd1 = SDL_CreateTextureFromSurface(renderer,surface);
 
 	//create SDL_Texture
-		SDL_Texture*bkgd2:
+		SDL_Texture*bkgd2;
 		//place surface info into the texture bkgd1;
-		bkgd2.CreateTextureFromSurface(renderer,surface);
+		bkgd2= SDL_CreateTextureFromSurface(renderer,surface);
 
 	//free SDL surface
 	//SDL_FreeSurface(surface);
@@ -126,7 +130,7 @@ int main(int argc, char* argv[]) {
 	float BG2pos_X = 0,BG2pos_Y = -768;
 
 	//create cursor
-	string CURSORpath = s_cwd_images + "/Cursor.png";
+	string CURSORpath = images_dir + "/Cursor.png";
 
 	surface = IMG_Load(CURSORpath.c_str());
 	SDL_Texture*cursor;
@@ -175,7 +179,7 @@ int main(int argc, char* argv[]) {
 	GameState gameState = MENU;
 
 	//boolean values to control movement though the states
-	bool menu, instructions, players1, players2, win, lose, quit;
+	bool menu, instructions, players1, players2, win, lose, quit = false;
 
 	//////////////////////////////////////////////
 
@@ -250,7 +254,7 @@ int main(int argc, char* argv[]) {
 			if(bkgd1Pos.y >= 768)
 			{
 				bkgd1Pos.y = -768;
-				BG1pos_Y = bkgd1Pos.Y;
+				BG1pos_Y = bkgd1Pos.y;
 			}
 
 
@@ -263,7 +267,7 @@ int main(int argc, char* argv[]) {
 						if(bkgd2Pos.y >= 768)
 						{
 							bkgd2Pos.y = -768;
-							BG2pos_Y = bkgd2Pos.Y;
+							BG2pos_Y = bkgd2Pos.y;
 						}
 
 			//Start Drawing
