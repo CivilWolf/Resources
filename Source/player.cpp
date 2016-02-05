@@ -55,9 +55,9 @@ void Player::Update(float deltaTime)
 		posRect.y = 0;
 		pos_Y = posRect.y;
 	}
-	if(posRect.y >768 - posRect.h)
+	if(posRect.y >1024 - posRect.h)
 	{
-		posRect.y = 768 -posRect.h;
+		posRect.y = 1024 -posRect.h;
 		pos_Y = posRect.y;
 	}
 }

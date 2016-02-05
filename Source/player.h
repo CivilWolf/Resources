@@ -13,9 +13,6 @@
 #if defined(_WIN32) || (_WIN64)
 
 #include "SDL.h"
-#include <Windows.h>
-#include <string>
-#include <direct.h>
 #include "SDL_image.h"
 
 #endif

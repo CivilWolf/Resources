@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 #include <iostream>
-#include "player.h"
+//#include "player.h"
 //#include <string>
 using namespace std;
 
@@ -48,7 +48,7 @@ int thisTime = 0;
 int lastTime = 0;
 
 //move the background
-void UpdateBackground() {
+void UpdateBackground(float deltaTime) {
 	//Update
 	//Update Background 1
 	BG1pos_Y += (bkgdSpeed * 1) * deltaTime;
@@ -136,13 +136,17 @@ void UpdateCursor(float deltaTime) {
 		cursorPos.y = 0;
 		pos_Y = cursorPos.y;
 	}
-	if (cursorPos.y > 768 - cursorPos.h) {
-		cursorPos.y = 768 - cursorPos.h;
+	if (cursorPos.y > 1024 - cursorPos.h) {
+		cursorPos.y = 1024 - cursorPos.h;
 		pos_Y = cursorPos.y;
 	}
 }
 bool players1Over = false, players2Over = false, instructionsOver = false,
 		quitOver = false, menuOver = false, playOver = false;
+
+
+#include "player.h"
+
 
 int main(int argc, char* argv[]) {
 
@@ -250,7 +254,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Cursor -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Cursor.bmp").c_str());
+	surface = IMG_Load((images_dir + "Cursor.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*cursor;
@@ -261,19 +265,19 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//Create the SDL_Rectangle for the texture's position and size -x,y,w,h
-	SDL_Rect cursorPos, activePos;
+	//SDL_Rect cursorPos, activePos;
 	//set the X,T,W, and H for the Rectangle
-	cursorPos.x = 0;
-	cursorPos.y = 0;
+	cursorPos.x = 10;
+	cursorPos.y = 10;
 	cursorPos.w = 64;
 	cursorPos.h = 64;
 
-	cursorPos.x = 10;
-	cursorPos.y = 10;
-	cursorPos.w = 10;
-	cursorPos.h = 10;
+	activePos.x = 10;
+	activePos.y = 10;
+	activePos.w = 10;
+	activePos.h = 10;
 
-	int cursorSpeed = 400;
+	//int cursorSpeed = 400;
 	//*************************************Create Cursor -End**************************************
 
 	//*************************************Create Menu -Start**************************************
@@ -281,7 +285,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Title.bmp").c_str());
+	surface = IMG_Load((images_dir + "Title.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*title;
@@ -303,7 +307,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create One -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "OneNorm.bmp").c_str());
+	surface = IMG_Load((images_dir + "OneN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*oneN;
@@ -314,7 +318,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "OneOver.bmp").c_str());
+	surface = IMG_Load((images_dir + "OneO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*oneO;
@@ -335,7 +339,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "TwoNorm.bmp").c_str());
+	surface = IMG_Load((images_dir + "TwoN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*twoN;
@@ -346,7 +350,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "TwoOver.bmp").c_str());
+	surface = IMG_Load((images_dir + "TwoO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*twoO;
@@ -366,7 +370,7 @@ int main(int argc, char* argv[]) {
 	//*************************************Create Two -End**************************************
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructionsNorm.bmp").c_str());
+	surface = IMG_Load((images_dir + "InstructionsN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructionsN;
@@ -377,7 +381,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructionsOver.bmp").c_str());
+	surface = IMG_Load((images_dir + "InstructionsO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructionsO;
@@ -397,7 +401,7 @@ int main(int argc, char* argv[]) {
 	//*************************************Create Two -End**************************************
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "QuitNorm.bmp").c_str());
+	surface = IMG_Load((images_dir + "QuitN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*quitN;
@@ -408,7 +412,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "QuitOver.bmp").c_str());
+	surface = IMG_Load((images_dir + "QuitO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*quitO;
@@ -432,7 +436,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructText.bmp").c_str());
+	surface = IMG_Load((images_dir + "InstructText.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructText;
@@ -587,7 +591,7 @@ int main(int argc, char* argv[]) {
 	//SDL_Texture*cursor;
 	//cursor= SDL_CreateTextureFromSurface(renderer,surface);
 
-	int bkgdSpeed = 100;
+	//int bkgdSpeed = 100;
 
 	/*
 	 //////////////////////////////////////////////
@@ -638,10 +642,6 @@ int main(int argc, char* argv[]) {
 			cout << "The Game State is Menu" << endl;
 			//cout << images_dir + "Path.jpg" << endl;
 			//cout << checking << endl;
-			cout << "Press the A Button for Instructions" << endl;
-			cout << "Press the X Button for 1 Player Game" << endl;
-			cout << "Press the B Button for 2 Player Game" << endl;
-			cout << "Press the Y Button to Quit the Game" << endl;
 			cout << endl;
 			while (menu) {
 
@@ -696,15 +696,14 @@ int main(int argc, char* argv[]) {
 				}
 				//Start Drawing
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
 
 				//Update Cursor
 				UpdateCursor(deltaTime);
 
 				players1Over = SDL_HasIntersection(&activePos, &onePos);
 				players2Over = SDL_HasIntersection(&activePos, &twoPos);
-				instructionsOver = SDL_HasIntersection(&activePos,
-						&instructionsPos);
+				instructionsOver = SDL_HasIntersection(&activePos,&instructionsPos);
 				quitOver = SDL_HasIntersection(&activePos, &quitPos);
 
 				//Start Drawing
@@ -720,13 +719,13 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer, title, NULL, &titlePos);
 
 				//Draw the One image
-				if (players1Over) {
+				if (players1Over == true) {
 					SDL_RenderCopy(renderer, oneO, NULL, &onePos);
 				} else {
 					SDL_RenderCopy(renderer, oneN, NULL, &onePos);
 				}
 				//Draw the One image
-				if (players2Over) {
+				if (players2Over == true) {
 					SDL_RenderCopy(renderer, twoO, NULL, &twoPos);
 				} else {
 					SDL_RenderCopy(renderer, twoN, NULL, &twoPos);
@@ -740,7 +739,13 @@ int main(int argc, char* argv[]) {
 							&instructionsPos);
 				}
 				//Draw the One image
-				SDL_RenderCopy(renderer, quitN, NULL, &quitPos);
+				if (quitOver) {
+				SDL_RenderCopy(renderer, quitO, NULL, &quitPos);
+				}
+				else
+				{
+					SDL_RenderCopy(renderer, quitN, NULL, &quitPos);
+				}
 
 				//Draw the One image
 				SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
@@ -756,7 +761,6 @@ int main(int argc, char* argv[]) {
 		case INSTRUCTIONS: {
 			instructions = true;
 			cout << "The Game State is Instructions" << endl;
-			cout << "Press the A Button for Main Menu" << endl;
 			cout << endl;
 			while (instructions) {
 
@@ -777,15 +781,28 @@ int main(int argc, char* argv[]) {
 						if (event.cdevice.which == 0) {
 							if (event.cbutton.button
 									== SDL_CONTROLLER_BUTTON_A) {
-								instructions = false;
-								gameState = MENU;
+								if(menuOver)
+								{
+									instructions = false;
+									gameState = MENU;
+									menuOver = false;
+								}
 
 							}
 						}
 						break;
+					case SDL_CONTROLLERAXISMOTION:
+						moveCursor(event.caxis);
+						break;
 					}
 				}
-				UpdateBackground();
+
+				menuOver = SDL_HasIntersection(&activePos,&menuPos);
+
+				UpdateBackground(deltaTime);
+				//cursor
+				UpdateCursor(deltaTime);
+
 
 				//Start Drawing
 				//Clear SDL Renderer
@@ -803,7 +820,14 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer, instructText, NULL, &instructTextPos);
 
 				//Draw the menu image
-				SDL_RenderCopy(renderer, menuN, NULL, &menuPos);
+				if(menuOver)
+				{
+				SDL_RenderCopy(renderer, menuO, NULL, &menuPos);
+				}
+				else
+				{
+					SDL_RenderCopy(renderer, menuN, NULL, &menuPos);
+				}
 
 				//Draw the One image
 				SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
@@ -817,8 +841,6 @@ int main(int argc, char* argv[]) {
 		case PLAYERS1: {
 			players1 = true;
 			cout << "The Game State is Players 1" << endl;
-			cout << "Press the A Button for Win Screen" << endl;
-			cout << "Press the B Button for Lose Screen" << endl;
 			cout << endl;
 			while (players1) {
 
@@ -861,7 +883,7 @@ int main(int argc, char* argv[]) {
 					}
 				}
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
 
 				player1.Update(deltaTime);
 				//Start Drawing
@@ -886,8 +908,6 @@ int main(int argc, char* argv[]) {
 		case PLAYERS2: {
 			players2 = true;
 			cout << "The Game State is Players 2" << endl;
-			cout << "Press the A Button for Win Screen" << endl;
-			cout << "Press the B Button for Lose Screen" << endl;
 			cout << endl;
 			while (players2) {
 
@@ -924,7 +944,7 @@ int main(int argc, char* argv[]) {
 					}
 				}
 
-				UpdateBackground();
+				UpdateBackground(deltaTime);
 
 				//Start Drawing
 				//Clear SDL Renderer
@@ -947,8 +967,7 @@ int main(int argc, char* argv[]) {
 		case WIN: {
 			win = true;
 			cout << "The Game State is Win" << endl;
-			cout << "Press the A Button for Main Menu" << endl;
-			cout << "Press the B Button for Replay Game" << endl;
+
 			cout << endl;
 			while (win) {
 
@@ -970,22 +989,34 @@ int main(int argc, char* argv[]) {
 						if (event.cdevice.which == 0) {
 							if (event.cbutton.button
 									== SDL_CONTROLLER_BUTTON_A) {
-								win = false;
-								gameState = MENU;
-
-							}
-							if (event.cbutton.button
-									== SDL_CONTROLLER_BUTTON_B) {
-								win = false;
-								gameState = PLAYERS1;
+								if(menuOver)
+																{
+																	win = false;
+																	gameState = MENU;
+																	menuOver = false;
+																}
+																if(playOver)
+																{
+																	win = false;
+																	gameState = PLAYERS1;
+																	playOver = false;
+																}
 
 							}
 						}
 						break;
+					case SDL_CONTROLLERAXISMOTION:
+						moveCursor(event.caxis);
+						break;
 					}
 				}
 
-				UpdateBackground();
+				menuOver = SDL_HasIntersection(&activePos,&menuPos);
+
+				playOver = SDL_HasIntersection(&activePos,&playPos);
+
+				UpdateBackground(deltaTime);
+				UpdateCursor(deltaTime);
 
 				//Start Drawing
 				//Clear SDL Renderer
@@ -1000,10 +1031,25 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer, winText, NULL, &winTextPos);
 
 				//Draw the menu image
-				SDL_RenderCopy(renderer, playN, NULL, &playPos);
+				if(playOver)
+				{
+					SDL_RenderCopy(renderer, playO, NULL, &playPos);
+				}
+				else
+				{
+					SDL_RenderCopy(renderer, playN, NULL, &playPos);
+				}
 
 				//Draw the menu image
-				SDL_RenderCopy(renderer, menuN, NULL, &menuPos);
+				if(menuOver)
+				{
+					SDL_RenderCopy(renderer, menuO, NULL, &menuPos);
+				}
+				else
+				{
+					SDL_RenderCopy(renderer, menuN, NULL, &menuPos);
+				}
+
 
 				//Draw the One image
 				SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
@@ -1017,8 +1063,6 @@ int main(int argc, char* argv[]) {
 		case LOSE: {
 			lose = true;
 			cout << "The Game State is Lose" << endl;
-			cout << "Press the A Button for Main Menu" << endl;
-			cout << "Press the B Button for Replay Game" << endl;
 			cout << endl;
 			while (lose) {
 
@@ -1040,22 +1084,35 @@ int main(int argc, char* argv[]) {
 						if (event.cdevice.which == 0) {
 							if (event.cbutton.button
 									== SDL_CONTROLLER_BUTTON_A) {
-								lose = false;
-								gameState = MENU;
-
-							}
-							if (event.cbutton.button
-									== SDL_CONTROLLER_BUTTON_B) {
-								lose = false;
-								gameState = PLAYERS1;
+								if(menuOver)
+								{
+									lose = false;
+									gameState = MENU;
+									menuOver = false;
+								}
+								if(playOver)
+								{
+									lose = false;
+									gameState = PLAYERS1;
+									playOver = false;
+								}
 
 							}
 						}
 						break;
+					case SDL_CONTROLLERAXISMOTION:
+											moveCursor(event.caxis);
+											break;
 					}
 				}
 
-				UpdateBackground();
+
+				menuOver = SDL_HasIntersection(&activePos,&menuPos);
+
+				playOver = SDL_HasIntersection(&activePos,&playPos);
+
+				UpdateBackground(deltaTime);
+				UpdateCursor(deltaTime);
 
 				//Start Drawing
 				//Clear SDL Renderer
@@ -1069,11 +1126,24 @@ int main(int argc, char* argv[]) {
 				//Draw the menu image
 				SDL_RenderCopy(renderer, loseText, NULL, &loseTextPos);
 
-				//Draw the menu image
-				SDL_RenderCopy(renderer, playN, NULL, &playPos);
+				if(playOver)
+				{
+					SDL_RenderCopy(renderer, playO, NULL, &playPos);
+				}
+				else
+				{
+					SDL_RenderCopy(renderer, playN, NULL, &playPos);
+				}
 
 				//Draw the menu image
-				SDL_RenderCopy(renderer, menuN, NULL, &menuPos);
+				if(menuOver)
+				{
+					SDL_RenderCopy(renderer, menuO, NULL, &menuPos);
+				}
+				else
+				{
+					SDL_RenderCopy(renderer, menuN, NULL, &menuPos);
+				}
 
 				//Draw the One image
 				SDL_RenderCopy(renderer, cursor, NULL, &cursorPos);
