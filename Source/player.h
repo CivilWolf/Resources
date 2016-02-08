@@ -24,9 +24,13 @@
 #include <iostream>
 //#include <string>
 using namespace std;
+#include <vector>
+#include "bullet.h"
 
 class Player{
 public:
+	vector<Bullet> bulletList;
+
 	string playerPath;
 	int playerNum;
 	SDL_Surface*surface;
@@ -44,5 +48,7 @@ public:
 	void OnControllerAxis(const SDL_ControllerAxisEvent event);
 	void OnControllerButton(const SDL_ControllerButtonEvent event);
 	~Player();
+private:
+	void CreateBullet();
 
 };

@@ -16,10 +16,9 @@
 #if defined(_WIN32) || (_WIN64)
 
 #include "SDL.h"
-#include <Windows.h>
-#include <string>
 #include <direct.h>
 #include "SDL_image.h"
+#define getcwd _getcwd
 
 #endif
 #if defined(__linux__)
@@ -91,21 +90,25 @@ void moveCursor(const SDL_ControllerAxisEvent event) {
 			if (event.value < -JOYSTICK_DEAD_ZONE) {
 				xDir = -1.0f;
 
-			} else if (event.value > JOYSTICK_DEAD_ZONE) {
+			}
+			else if (event.value > JOYSTICK_DEAD_ZONE) {
 				xDir = 1.0f;
-			} else {
+			}
+			else {
 				xDir = 0.0f;
 			}
 		}
-	}
-	if (event.axis == 1) {
-		if (event.value < -JOYSTICK_DEAD_ZONE) {
-			yDir = -1.0f;
+		if (event.axis == 1) {
+			if (event.value < -JOYSTICK_DEAD_ZONE) {
+				yDir = -1.0f;
 
-		} else if (event.value > JOYSTICK_DEAD_ZONE) {
-			yDir = 1.0f;
-		} else {
-			yDir = 0.0f;
+			}
+			else if (event.value > JOYSTICK_DEAD_ZONE) {
+				yDir = 1.0f;
+			}
+			else {
+				yDir = 0.0f;
+			}
 		}
 	}
 }
@@ -192,7 +195,7 @@ int main(int argc, char* argv[]) {
 		string currentWorkingDirectory(getcwd(NULL, 0));
 
 		//create a string linking to the mac's images folder
-		string images_dir = currentWorkingDirectory + "/Resources/Images/";
+		string images_dir = currentWorkingDirectory + "\\Resources\\Images\\";
 	}
 #endif
 
@@ -217,6 +220,8 @@ int main(int argc, char* argv[]) {
 	string BKGDpath = images_dir + "Path.bmp";
 
 	Player player1 =Player(renderer,0,images_dir.c_str(),250.0,500.0);
+	Player player2 = Player(renderer, 1, images_dir.c_str(), 750.0, 500.0);
+
 
 	//create a SDL surface to hold the background images
 	SDL_Surface *surface = IMG_Load((BKGDpath).c_str());
@@ -254,7 +259,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Cursor -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Cursor.png").c_str());
+	surface = IMG_Load((images_dir + "Cursor.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*cursor;
@@ -285,7 +290,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Title.png").c_str());
+	surface = IMG_Load((images_dir + "Title.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*title;
@@ -307,7 +312,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create One -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "OneN.png").c_str());
+	surface = IMG_Load((images_dir + "OneN.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*oneN;
@@ -318,7 +323,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "OneO.png").c_str());
+	surface = IMG_Load((images_dir + "OneO.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*oneO;
@@ -339,7 +344,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "TwoN.png").c_str());
+	surface = IMG_Load((images_dir + "TwoN.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*twoN;
@@ -350,7 +355,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "TwoO.png").c_str());
+	surface = IMG_Load((images_dir + "TwoO.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*twoO;
@@ -370,7 +375,7 @@ int main(int argc, char* argv[]) {
 	//*************************************Create Two -End**************************************
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructionsN.png").c_str());
+	surface = IMG_Load((images_dir + "InstructionsN.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructionsN;
@@ -381,7 +386,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructionsO.png").c_str());
+	surface = IMG_Load((images_dir + "InstructionsO.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructionsO;
@@ -401,7 +406,7 @@ int main(int argc, char* argv[]) {
 	//*************************************Create Two -End**************************************
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "QuitN.png").c_str());
+	surface = IMG_Load((images_dir + "QuitN.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*quitN;
@@ -412,7 +417,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "QuitO.png").c_str());
+	surface = IMG_Load((images_dir + "QuitO.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*quitO;
@@ -436,7 +441,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructText.png").c_str());
+	surface = IMG_Load((images_dir + "InstructText.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructText;
@@ -458,7 +463,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Instructions Menu Button -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "MenuNorm.bmp").c_str());
+	surface = IMG_Load((images_dir + "MenuN.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*menuN;
@@ -468,7 +473,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "MenuOver.bmp").c_str());
+	surface = IMG_Load((images_dir + "MenuO.bmp").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*menuO;
@@ -585,7 +590,7 @@ int main(int argc, char* argv[]) {
 	//	cursorPos.h = 64;
 
 	////create cursor
-	//string CURSORpath = images_dir + "/Cursor.png";
+	//string CURSORpath = images_dir + "/Cursor.bmp";
 
 	//surface = IMG_Load(CURSORpath.c_str());
 	//SDL_Texture*cursor;
@@ -609,14 +614,20 @@ int main(int argc, char* argv[]) {
 	 SDL_UpdateWindowSurface(window);
 	 */
 
+
+	SDL_GameControllerEventState(SDL_ENABLE);
 	//Setup a Game Controller Variable
-	SDL_GameController* gGameController = NULL;
+	SDL_GameController* gGameController0 = NULL;
 
 	//Open Game Controller
-	gGameController = SDL_GameControllerOpen(0);
+	gGameController0 = SDL_GameControllerOpen(0);
 
+	SDL_GameController* gGameController1 = NULL;
+
+	//Open Game Controller
+	gGameController1 = SDL_GameControllerOpen(0);
 	//Turn on Game Controller Events
-	SDL_GameControllerEventState(SDL_ENABLE);
+	
 
 	//SDL Event to handle input
 	SDL_Event event;
@@ -630,7 +641,7 @@ int main(int argc, char* argv[]) {
 	GameState gameState = MENU;
 
 	//boolean values to control movement though the states
-	bool menu, instructions, players1, players2, win, lose, quit = false;
+	bool menu = false, instructions = false, players1 = false, players2 = false, win = false, lose = false, quit = false;
 
 	//////////////////////////////////////////////
 
@@ -896,7 +907,7 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
 
 				//Draw the menu image
-				SDL_RenderCopy(renderer, oneN, NULL, &onePos);
+				//SDL_RenderCopy(renderer, oneN, NULL, &onePos);
 
 				player1.Draw(renderer);
 				//SDL Render present
@@ -926,25 +937,34 @@ int main(int argc, char* argv[]) {
 					}
 					switch (event.type) {
 					case SDL_CONTROLLERBUTTONDOWN:
-						if (event.cdevice.which == 0) {
+						if (event.cdevice.which == 0|| event.cdevice.which == 1) {
 							if (event.cbutton.button
-									== SDL_CONTROLLER_BUTTON_A) {
+									== SDL_CONTROLLER_BUTTON_X) {
 								players2 = false;
 								gameState = WIN;
 
 							}
 							if (event.cbutton.button
-									== SDL_CONTROLLER_BUTTON_B) {
+									== SDL_CONTROLLER_BUTTON_Y) {
 								players2 = false;
 								gameState = LOSE;
 
 							}
 						}
+
+						player1.OnControllerButton(event.cbutton);
+						player2.OnControllerButton(event.cbutton);
+						break;
+					case SDL_CONTROLLERAXISMOTION:
+						player1.OnControllerAxis(event.caxis);
+						player2.OnControllerAxis(event.caxis);
 						break;
 					}
 				}
 
 				UpdateBackground(deltaTime);
+				player1.Update(deltaTime);
+				player2.Update(deltaTime);
 
 				//Start Drawing
 				//Clear SDL Renderer
@@ -955,8 +975,12 @@ int main(int argc, char* argv[]) {
 				//Draw the bkgd image
 				SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
 
+
+				player1.Draw(renderer);
+				player2.Draw(renderer);
+
 				//Draw the menu image
-				SDL_RenderCopy(renderer, twoN, NULL, &twoPos);
+				//SDL_RenderCopy(renderer, twoN, NULL, &twoPos);
 
 				//SDL Render present
 				SDL_RenderPresent(renderer);
