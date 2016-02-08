@@ -10,6 +10,32 @@ Player::Player(SDL_Renderer*renderer,int pNum,string filePath,string audioPath,f
 
 	arrow = Mix_LoadWAV((audioPath+"arrow.wav").c_str());
 
+
+	oldScore = 0;
+	playerScore = 0;
+	oldLives = 0;
+	playerLives = 3;
+
+	TTF_Init();
+
+	font = TTF_OpenFont((audioPath+"Berry Rotunda.ttf").c_str(),40);
+	if(playerNum == 0)
+	{
+		scorePos.x = scorePos.y = 10;
+		livesPos.x = 10;
+		livesPos.y = 40;
+	}
+	else
+	{
+		scorePos.x = 650;
+		scorePos.y = 10;
+		livesPos.x = 650;
+		livesPos.y = 40;
+	}
+	//update score method
+	UpdateScore(renderer);
+
+
 	if(playerNum == 0)
 	{
 		playerPath = filePath +"Player.bmp";
@@ -51,7 +77,30 @@ Player::Player(SDL_Renderer*renderer,int pNum,string filePath,string audioPath,f
 
 }
 
-void Player::Update(float deltaTime)
+void Player::UpdateScore(SDL_Renderer*renderer)
+{
+	string Result;
+	ostringstream convert;
+	convert << playerScore;
+	Result = convert.str();
+
+	tempScore = "Player Score:" +Result;
+	if(playerNum == 0)
+	{
+		scoreSurface = TTF_RenderText_Solid(font,tempScore.c_str(),colorP1);
+
+	}
+	else
+	{
+		scoreSurface = TTF_RenderText_Solid(font,tempScore.c_str(),colorP2);
+	}
+	scoreTexture = SDL_CreateTextureFromSurface(renderer,scoreSurface);
+	SDL_QueryTexture(scoreTexture,NULL,NULL,&scorePos.w,&scorePos.h);
+	SDL_FreeSurface(scoreSurface);
+	oldScore = playerScore;
+}
+
+void Player::Update(float deltaTime,SDL_Renderer *renderer)
 {
 	pos_X +=(speed * xDir)*deltaTime;
 	pos_Y +=(speed * yDir) *deltaTime;
@@ -90,6 +139,10 @@ void Player::Update(float deltaTime)
 		}
 	}
 
+	if(playerScore != oldScore)
+	{
+		UpdateScore(renderer);
+	}
 }
 
 void Player::Draw(SDL_Renderer*renderer)
@@ -102,6 +155,7 @@ void Player::Draw(SDL_Renderer*renderer)
 			bulletList[i].Draw(renderer);
 		}
 	}
+	SDL_RenderCopy(renderer,scoreTexture,NULL,&scorePos);
 }
 
 
