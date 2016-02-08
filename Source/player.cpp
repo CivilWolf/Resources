@@ -3,10 +3,13 @@
 //analog joystick dead zone
 const int JOYSTICK_DEAD_ZONE = 8000;
 
-Player::Player(SDL_Renderer*renderer,int pNum,string filePath,float x,float y)
+Player::Player(SDL_Renderer*renderer,int pNum,string filePath,string audioPath,float x,float y)
 {
 	playerNum = pNum;
 	speed = 500.0f;
+
+	arrow = Mix_LoadWAV((audioPath+"arrow.wav").c_str());
+
 	if(playerNum == 0)
 	{
 		playerPath = filePath +"Player.bmp";
@@ -108,6 +111,7 @@ void Player::CreateBullet()
 	{
 		if (bulletList[i].active == false)
 		{
+			Mix_PlayChannel(-1,arrow,0);
 			bulletList[i].active = true;
 			bulletList[i].posRect.x = (pos_X + (posRect.w / 2));
 			bulletList[i].posRect.x = (bulletList[i].posRect.x - (bulletList[i].posRect.w / 2));
