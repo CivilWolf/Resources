@@ -40,6 +40,14 @@ void Bullet::Draw(SDL_Renderer*renderer)
 {
 	SDL_RenderCopy(renderer, texture, NULL, &posRect);
 }
+
+void Bullet::Reset()
+{
+	posRect.x = -1000;
+	pos_X = posRect.x;
+	active = false;
+}
+
 Bullet::~Bullet()
 {
 	//SDL_DestroyTexture(texture);

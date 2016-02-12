@@ -39,6 +39,8 @@ using namespace std;
 class Player{
 public:
 
+	bool active;
+
 	int playerScore,oldScore,playerLives,oldLives;
 
 	//Variable for font
@@ -76,6 +78,9 @@ public:
 
 	//update score method
 	void UpdateScore(SDL_Renderer*renderer);
+	void UpdateLives(SDL_Renderer*renderer);
+
+	void Reset();
 private:
 	void CreateBullet();
 

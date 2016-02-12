@@ -152,9 +152,18 @@ bool players1Over = false, players2Over = false, instructionsOver = false,
 
 
 #include "player.h"
+#include "enemy.h"
+#include <vector>
+#include <stdlib.h>
+#include <time.h>
+
+
+vector<Enemy> enemyList;
 
 
 int main(int argc, char* argv[]) {
+
+	srand(time(NULL));
 
 	SDL_Window *window;                    // Declare a pointer
 
@@ -223,7 +232,7 @@ int main(int argc, char* argv[]) {
 	string images_dir = currentWorkingDirectory + "/Resources/Images/";
 	string audio_dir = currentWorkingDirectory + "/Resources/Audio/";
 	//CreateBackground
-	string BKGDpath = images_dir + "Path.bmp";
+	string BKGDpath = images_dir + "Path.png";
 
 
 
@@ -264,7 +273,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Cursor -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Cursor.bmp").c_str());
+	surface = IMG_Load((images_dir + "Cursor.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*cursor;
@@ -295,7 +304,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Title.bmp").c_str());
+	surface = IMG_Load((images_dir + "Title.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*title;
@@ -317,7 +326,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create One -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "OneN.bmp").c_str());
+	surface = IMG_Load((images_dir + "OneN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*oneN;
@@ -328,7 +337,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "OneO.bmp").c_str());
+	surface = IMG_Load((images_dir + "OneO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*oneO;
@@ -349,7 +358,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "TwoN.bmp").c_str());
+	surface = IMG_Load((images_dir + "TwoN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*twoN;
@@ -360,7 +369,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "TwoO.bmp").c_str());
+	surface = IMG_Load((images_dir + "TwoO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*twoO;
@@ -380,7 +389,7 @@ int main(int argc, char* argv[]) {
 	//*************************************Create Two -End**************************************
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructionsN.bmp").c_str());
+	surface = IMG_Load((images_dir + "InstructionsN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructionsN;
@@ -391,7 +400,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructionsO.bmp").c_str());
+	surface = IMG_Load((images_dir + "InstructionsO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructionsO;
@@ -411,7 +420,7 @@ int main(int argc, char* argv[]) {
 	//*************************************Create Two -End**************************************
 	//*************************************Create Two -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "QuitN.bmp").c_str());
+	surface = IMG_Load((images_dir + "QuitN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*quitN;
@@ -422,7 +431,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "QuitO.bmp").c_str());
+	surface = IMG_Load((images_dir + "QuitO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*quitO;
@@ -446,7 +455,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "InstructText.bmp").c_str());
+	surface = IMG_Load((images_dir + "InstructText.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*instructText;
@@ -468,7 +477,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create Instructions Menu Button -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "MenuN.bmp").c_str());
+	surface = IMG_Load((images_dir + "MenuN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*menuN;
@@ -478,7 +487,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "MenuO.bmp").c_str());
+	surface = IMG_Load((images_dir + "MenuO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*menuO;
@@ -502,7 +511,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Win.bmp").c_str());
+	surface = IMG_Load((images_dir + "Win.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*winText;
@@ -528,7 +537,7 @@ int main(int argc, char* argv[]) {
 
 	//*************************************Create play Menu Button -Start**************************************
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "PlayN.bmp").c_str());
+	surface = IMG_Load((images_dir + "PlayN.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*playN;
@@ -538,7 +547,7 @@ int main(int argc, char* argv[]) {
 	SDL_FreeSurface(surface);
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "PlayO.bmp").c_str());
+	surface = IMG_Load((images_dir + "PlayO.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*playO;
@@ -562,7 +571,7 @@ int main(int argc, char* argv[]) {
 	//string BKGDpath = ;
 
 	//create a SDL surface to hold the background images
-	surface = IMG_Load((images_dir + "Lose.bmp").c_str());
+	surface = IMG_Load((images_dir + "Lose.png").c_str());
 
 	//create SDL_Texture
 	SDL_Texture*loseText;
@@ -595,7 +604,7 @@ int main(int argc, char* argv[]) {
 	//	cursorPos.h = 64;
 
 	////create cursor
-	//string CURSORpath = images_dir + "/Cursor.bmp";
+	//string CURSORpath = images_dir + "/Cursor.png";
 
 	//surface = IMG_Load(CURSORpath.c_str());
 	//SDL_Texture*cursor;
@@ -662,6 +671,8 @@ int main(int argc, char* argv[]) {
 	Mix_Chunk *overSound = Mix_LoadWAV((audio_dir +"over.wav").c_str());
 
 	Mix_Chunk *pressedSound = Mix_LoadWAV((audio_dir + "pressed.wav").c_str());
+
+	Mix_Chunk *explosionSound = Mix_LoadWAV((audio_dir + "ouch.wav").c_str());
 
 	bool alreadyOver = false;
 
@@ -915,7 +926,18 @@ int main(int argc, char* argv[]) {
 			break;	//end instructions case
 		case PLAYERS1: {
 
+			enemyList.clear();
+
+			//reset the player
+			player1.Reset();
+
 			players1 = true;
+
+			for(int i = 0; i< 6;i++)
+			{
+				Enemy tmpEnemy(renderer,images_dir);
+				enemyList.push_back(tmpEnemy);
+			}
 			cout << "The Game State is Players 1" << endl;
 			cout << endl;
 			while (players1) {
@@ -949,8 +971,10 @@ int main(int argc, char* argv[]) {
 
 							}
 							//send button press info to player 1
-							player1.OnControllerButton(event.cbutton);
-
+							if(player1.active)
+							{
+								player1.OnControllerButton(event.cbutton);
+							}
 						}
 						break;
 					case SDL_CONTROLLERAXISMOTION:
@@ -960,8 +984,55 @@ int main(int argc, char* argv[]) {
 				}
 
 				UpdateBackground(deltaTime);
+				if(player1.active)
+				{
+				player1.Update(deltaTime,renderer);
+				}
 
-				player1.Update(deltaTime);
+
+				for(int i  = 0; i < enemyList.size();i++)
+				{
+					enemyList[i].Update(deltaTime);
+				}
+
+
+				if(player1.active == true)
+				{
+					for(int i = 0; i< player1.bulletList.size();i++)
+					{
+						if(player1.bulletList[i].active == true)
+						{
+							for(int j = 0; j < enemyList.size();j++)
+							{
+								if(SDL_HasIntersection(&player1.bulletList[i].posRect,&enemyList[j].posRect))
+								{
+									Mix_PlayChannel(-1,explosionSound,0);
+									enemyList[j].Reset();
+									player1.playerScore += 50;
+									player1.bulletList[i].Reset();
+								}
+							}
+						}
+					}
+					for(int i = 0; i < enemyList.size(); i++)
+					{
+						if(SDL_HasIntersection(&player1.posRect,&enemyList[i].posRect))
+						{
+							Mix_PlayChannel(-1,explosionSound,0);
+							enemyList[i].Reset();
+							player1.playerLives -=1;
+							if(player1.playerLives <= 0)
+							{
+								players1 = false;
+								gameState = LOSE;
+								break;
+							}
+						}
+					}
+				}
+				//player 1 active check ends
+
+
 				//Start Drawing
 				//Clear SDL Renderer
 				SDL_RenderClear(renderer);
@@ -970,6 +1041,12 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer, bkgd1, NULL, &bkgd1Pos);
 				//Draw the bkgd image
 				SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
+
+
+				for(int i = 0; i < enemyList.size();i++)
+				{
+					enemyList[i].Draw(renderer);
+				}
 
 				//Draw the menu image
 				//SDL_RenderCopy(renderer, oneN, NULL, &onePos);
@@ -982,7 +1059,22 @@ int main(int argc, char* argv[]) {
 		}
 			break;	//end players1 case
 		case PLAYERS2: {
+
+			enemyList.clear();
+
+
+			//reset player 1 and 2
+			player1.Reset();
+			player2.Reset();
+
 			players2 = true;
+
+			for(int i = 0; i < 12; i++)
+			{
+				Enemy tmpEnemy(renderer,images_dir);
+				enemyList.push_back(tmpEnemy);
+			}
+
 			cout << "The Game State is Players 2" << endl;
 			cout << endl;
 			while (players2) {
@@ -1016,20 +1108,115 @@ int main(int argc, char* argv[]) {
 
 							}
 						}
-
+						if(player1.active)
+						{
 						player1.OnControllerButton(event.cbutton);
+						}
+						if(player2.active)
+						{
 						player2.OnControllerButton(event.cbutton);
+						}
 						break;
 					case SDL_CONTROLLERAXISMOTION:
+						if(player1.active)
+						{
 						player1.OnControllerAxis(event.caxis);
+						}
+						if(player2.active)
+						{
 						player2.OnControllerAxis(event.caxis);
+						}
 						break;
 					}
 				}
 
 				UpdateBackground(deltaTime);
-				player1.Update(deltaTime);
-				player2.Update(deltaTime);
+				if(player1.active)
+				{
+				player1.Update(deltaTime,renderer);
+				}
+				if(player2.active)
+				{
+				player2.Update(deltaTime,renderer);
+				}
+
+				for(int i = 0; i < enemyList.size(); i++)
+				{
+					enemyList[i].Update(deltaTime);
+				}
+
+
+
+				if(player1.active == true)
+								{
+									for(int i = 0; i< player1.bulletList.size();i++)
+									{
+										if(player1.bulletList[i].active == true)
+										{
+											for(int j = 0; j < enemyList.size();j++)
+											{
+												if(SDL_HasIntersection(&player1.bulletList[i].posRect,&enemyList[j].posRect))
+												{
+													Mix_PlayChannel(-1,explosionSound,0);
+													enemyList[j].Reset();
+													player1.playerScore += 50;
+													player1.bulletList[i].Reset();
+												}
+											}
+										}
+									}
+									for(int i = 0; i < enemyList.size(); i++)
+									{
+										if(SDL_HasIntersection(&player1.posRect,&enemyList[i].posRect))
+										{
+											Mix_PlayChannel(-1,explosionSound,0);
+											enemyList[i].Reset();
+											player1.playerLives -=1;
+											if(player1.playerLives <= 0 && player2.playerLives <=0)
+											{
+												players1 = false;
+												gameState = LOSE;
+												break;
+											}
+										}
+									}
+								}
+								//player 1 active check ends
+				if(player2.active == true)
+								{
+									for(int i = 0; i< player2.bulletList.size();i++)
+									{
+										if(player2.bulletList[i].active == true)
+										{
+											for(int j = 0; j < enemyList.size();j++)
+											{
+												if(SDL_HasIntersection(&player2.bulletList[i].posRect,&enemyList[j].posRect))
+												{
+													Mix_PlayChannel(-1,explosionSound,0);
+													enemyList[j].Reset();
+													player2.playerScore += 50;
+													player2.bulletList[i].Reset();
+												}
+											}
+										}
+									}
+									for(int i = 0; i < enemyList.size(); i++)
+									{
+										if(SDL_HasIntersection(&player2.posRect,&enemyList[i].posRect))
+										{
+											Mix_PlayChannel(-1,explosionSound,0);
+											enemyList[i].Reset();
+											player2.playerLives -=1;
+											if(player1.playerLives <= 0&& player2.playerLives <=0)
+											{
+												players2 = false;
+												gameState = LOSE;
+												break;
+											}
+										}
+									}
+								}
+								//player 1 active check ends
 
 				//Start Drawing
 				//Clear SDL Renderer
@@ -1041,8 +1228,15 @@ int main(int argc, char* argv[]) {
 				SDL_RenderCopy(renderer, bkgd2, NULL, &bkgd2Pos);
 
 
+				for(int i = 0; i < enemyList.size();i++)
+				{
+					enemyList[i].Draw(renderer);
+				}
+
+
 				player1.Draw(renderer);
 				player2.Draw(renderer);
+
 
 				//Draw the menu image
 				//SDL_RenderCopy(renderer, twoN, NULL, &twoPos);
