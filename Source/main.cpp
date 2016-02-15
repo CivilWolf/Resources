@@ -156,9 +156,29 @@ bool players1Over = false, players2Over = false, instructionsOver = false,
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
-
+#include "explode.h"
 
 vector<Enemy> enemyList;
+vector<Explode> explodeList;
+
+
+void MakeExplosion(int x, int y)
+{
+	for (int i = 0; i < explodeList.size(); i++)
+	{
+		if (explodeList[i].active == false)
+		{
+			explodeList[i].active = true;
+			explodeList[i].posRect.x = x;
+			explodeList[i].posRect.y = y;
+			break;
+		}
+	}
+}
+
+
+
+
 
 
 int main(int argc, char* argv[]) {
@@ -680,6 +700,12 @@ int main(int argc, char* argv[]) {
 	Player player1 =Player(renderer,0,images_dir.c_str(),audio_dir.c_str(),250.0,500.0);
 	Player player2 = Player(renderer, 1, images_dir.c_str(),audio_dir.c_str(), 750.0, 500.0);
 
+	for (int i = 0; i < 20; i++)
+	{
+		Explode tmpExplode(renderer, images_dir, -1000, -1000);
+		explodeList.push_back(tmpExplode);
+	}
+
 
 
 	// The window is open: could enter program loop here (see SDL_PollEvent())
@@ -1007,9 +1033,18 @@ int main(int argc, char* argv[]) {
 								if(SDL_HasIntersection(&player1.bulletList[i].posRect,&enemyList[j].posRect))
 								{
 									Mix_PlayChannel(-1,explosionSound,0);
+
+									MakeExplosion(enemyList[j].posRect.x, enemyList[j].posRect.y);
+
 									enemyList[j].Reset();
-									player1.playerScore += 50;
 									player1.bulletList[i].Reset();
+									player1.playerScore += 50;
+									if (player1.playerScore >= 1000)
+									{
+										players1 = false;
+										gameState = WIN;
+									}
+									
 								}
 							}
 						}
@@ -1019,6 +1054,9 @@ int main(int argc, char* argv[]) {
 						if(SDL_HasIntersection(&player1.posRect,&enemyList[i].posRect))
 						{
 							Mix_PlayChannel(-1,explosionSound,0);
+
+							MakeExplosion(player1.posRect.x-32, player1.posRect.y-32);
+
 							enemyList[i].Reset();
 							player1.playerLives -=1;
 							if(player1.playerLives <= 0)
@@ -1031,6 +1069,14 @@ int main(int argc, char* argv[]) {
 					}
 				}
 				//player 1 active check ends
+
+				for (int i = 0; i < explodeList.size(); i++)
+				{
+					if (explodeList[i].active == true)
+					{
+						explodeList[i].Update(deltaTime);
+					}
+				}
 
 
 				//Start Drawing
@@ -1052,6 +1098,15 @@ int main(int argc, char* argv[]) {
 				//SDL_RenderCopy(renderer, oneN, NULL, &onePos);
 
 				player1.Draw(renderer);
+
+				for (int i = 0; i < explodeList.size(); i++)
+				{
+					if (explodeList[i].active == true)
+					{
+						explodeList[i].Draw(renderer);
+					}
+				}
+
 				//SDL Render present
 				SDL_RenderPresent(renderer);
 
@@ -1158,9 +1213,16 @@ int main(int argc, char* argv[]) {
 												if(SDL_HasIntersection(&player1.bulletList[i].posRect,&enemyList[j].posRect))
 												{
 													Mix_PlayChannel(-1,explosionSound,0);
+													MakeExplosion(enemyList[j].posRect.x, enemyList[j].posRect.y);
 													enemyList[j].Reset();
-													player1.playerScore += 50;
 													player1.bulletList[i].Reset();
+													player1.playerScore += 50;
+													if (player1.playerScore >= 1000)
+													{
+														players2 = false;
+														gameState = WIN;
+													}
+													
 												}
 											}
 										}
@@ -1170,11 +1232,14 @@ int main(int argc, char* argv[]) {
 										if(SDL_HasIntersection(&player1.posRect,&enemyList[i].posRect))
 										{
 											Mix_PlayChannel(-1,explosionSound,0);
+
+											MakeExplosion(player1.posRect.x, player1.posRect.y);
+
 											enemyList[i].Reset();
 											player1.playerLives -=1;
 											if(player1.playerLives <= 0 && player2.playerLives <=0)
 											{
-												players1 = false;
+												players2 = false;
 												gameState = LOSE;
 												break;
 											}
@@ -1193,9 +1258,18 @@ int main(int argc, char* argv[]) {
 												if(SDL_HasIntersection(&player2.bulletList[i].posRect,&enemyList[j].posRect))
 												{
 													Mix_PlayChannel(-1,explosionSound,0);
+
+													MakeExplosion(enemyList[j].posRect.x, enemyList[j].posRect.y);
+
 													enemyList[j].Reset();
-													player2.playerScore += 50;
 													player2.bulletList[i].Reset();
+													player2.playerScore += 50;
+													if (player2.playerScore >= 1000)
+													{
+														players2 = false;
+														gameState = WIN;
+													}
+													
 												}
 											}
 										}
@@ -1205,6 +1279,7 @@ int main(int argc, char* argv[]) {
 										if(SDL_HasIntersection(&player2.posRect,&enemyList[i].posRect))
 										{
 											Mix_PlayChannel(-1,explosionSound,0);
+											MakeExplosion(player2.posRect.x, player2.posRect.y);
 											enemyList[i].Reset();
 											player2.playerLives -=1;
 											if(player1.playerLives <= 0&& player2.playerLives <=0)
@@ -1219,6 +1294,14 @@ int main(int argc, char* argv[]) {
 								//player 1 active check ends
 
 				//Start Drawing
+
+				for (int i = 0; i < explodeList.size(); i++)
+				{
+					if (explodeList[i].active == true)
+					{
+						explodeList[i].Update(deltaTime);
+					}
+				}
 				//Clear SDL Renderer
 				SDL_RenderClear(renderer);
 
@@ -1239,6 +1322,16 @@ int main(int argc, char* argv[]) {
 
 
 				//Draw the menu image
+
+
+
+				for (int i = 0; i < explodeList.size(); i++)
+				{
+					if (explodeList[i].active == true)
+					{
+						explodeList[i].Draw(renderer);
+					}
+				}
 				//SDL_RenderCopy(renderer, twoN, NULL, &twoPos);
 
 				//SDL Render present
